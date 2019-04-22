@@ -1,0 +1,3 @@
+[submodule "24-CAPTEG/tf_models"]
+	path = 24-CAPTEG/tf_models
+	url = https://github.com/tensorflow/models.git

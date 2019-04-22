@@ -1,4 +1,4 @@
-# 18 - Egg Storage
+# WIP: 18 - Egg Storage
 > Last year someone stole some eggs from Thumper.
 > 
 > This year he decided to use cutting edge technology to protect his eggs.
