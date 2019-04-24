@@ -160,7 +160,7 @@ as a data section:
 
 As such, the memory array at this point in execution contains the following:
 ```js
-["f", "Q", "\01", "i", "P", "\13", "W", "P", "\03", "j", "\06", "\07", "\07","{", "\05", "\04", "P", "\0b", "\06", "\07", "W", "z", "P", "\04", $var0, $var1, ..., $var23]
+[102, 81, 1, 105, 80, 19, 87, 80, 3, 106, 6, 7, 7, 123, 5, 4, 80, 11, 6, 7, 87, 122, 80, 4, $var0, $var1, ..., $var23]
 ```
 
 Switching to Chrome dev tools we can actually set breakpoints in the WebAssembly and
@@ -397,6 +397,24 @@ Followed by even more complicated relations:
     i32.sub               ;;
     i32.ne                ;;
     if                    ;; if (($var11 % $var13) != ($var21 - 46))
+      i32.const 0         ;;    return 0
+      return              ;;
+    end
+    get_local $var7       ;;
+    get_local $var6       ;;
+    i32.rem_s             ;;
+    get_local $var10      ;;
+    i32.ne                ;; if (($var7 % $var6) != $var10)
+    if                    ;;    return 0
+      i32.const 0         ;;
+      return              ;;
+    end
+    get_local $var23      ;;
+    get_local $var22      ;;
+    i32.rem_s             ;;
+    i32.const 2           ;;
+    i32.ne                ;;
+    if                    ;; if (($var23 % var22) != 2)
       i32.const 0         ;;    return 0
       return              ;;
     end

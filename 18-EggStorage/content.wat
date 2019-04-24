@@ -293,7 +293,7 @@
     end
     get_local $var7       ;;
     get_local $var6       ;;
-    i32.rem_s             ;; $var7 % $var6
+    i32.rem_s             ;;
     get_local $var10      ;;
     i32.ne                ;; if (($var7 % $var6) != $var10)
     if                    ;;    return 0
