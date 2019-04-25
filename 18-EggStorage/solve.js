@@ -1,5 +1,5 @@
 (function () {
-'use strict';
+    'use strict';
 
     // Chars that the input may contain
     const INPUT_CHARSET = [];
@@ -7,6 +7,7 @@
         INPUT_CHARSET.push(i);
     }
     // Chars that the final "flag" may contain
+    //const FLAG_CHARSET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890.-_".split("").map(c => c.charCodeAt(0));
     const FLAG_CHARSET = INPUT_CHARSET.slice();
     // Known cipher (predefined in memory)
     // "fQ\01iP\13WP\03j\06\07\07{\05\04P\0b\06\07WzP\04"
@@ -235,14 +236,278 @@
                     didChange = true;
                 }
             }
-            
-        } while(didChange);
+
+        } while (didChange);
+
+
+        // $var13 == ($var9 % $var4) * 2
+        didChange = false;
+        do {
+            didChange = false;
+
+            // Test that for each entry "ch4_" in ch4 there are entries "ch9_"
+            // in ch9 and "ch13_" in ch13 such that: ch13_ == (ch9_ % ch4_) * 2
+            for (let i = (ch4.length - 1); i >= 0; i--) {
+                let ch4_ = ch4[i];
+                let ok = false;
+                loopInner:
+                for (let ch9_ of ch9) {
+                    for (let ch13_ of ch13) {
+                        if (ch13_ === (ch9_ % ch4_) * 2) {
+                            ok = true;
+                            break loopInner;
+                        }
+                    }
+                }
+                if (!ok) {
+                    ch4.splice(i, 1);
+                    didChange = true;
+                }
+            }
+
+            // Test that for each entry "ch9_" in ch9 there are entries "ch4_"
+            // in ch4 and "ch13_" in ch13 such that: ch13_ == (ch9_ % ch4_) * 2
+            for (let i = (ch9.length - 1); i >= 0; i--) {
+                let ch9_ = ch9[i];
+                let ok = false;
+                loopInner:
+                for (let ch4_ of ch4) {
+                    for (let ch13_ of ch13) {
+                        if (ch13_ === (ch9_ % ch4_) * 2) {
+                            ok = true;
+                            break loopInner;
+                        }
+                    }
+                }
+                if (!ok) {
+                    ch9.splice(i, 1);
+                    didChange = true;
+                }
+            }
+
+            // Test that for each entry "ch13_" in ch13 there are entries "ch4_"
+            // in ch4 and "ch9_" in ch9 such that: ch13_ == (ch9_ % ch4_) * 2
+            let rhs = new Set();
+            for (let ch4_ of ch4) {
+                for (let ch9_ of ch9) {
+                    rhs.add((ch9_ % ch4_) * 2);
+                }
+            }
+            for (let i = (ch13.length - 1); i >= 0; i--) {
+                let ch13_ = ch13[i];
+                if (!rhs.has(ch13_)) {
+                    ch13.splice(i, 1);
+                    didChange = true;
+                }
+            }
+
+        } while (didChange)
+
+        // $var13 % $var6 == 20
+        didChange = false;
+        do {
+            didChange = false;
+
+            for (let i = (ch13.length - 1); i >= 0; i--) {
+                let ch13_ = ch13[i];
+                let ok = false;
+                for (let ch6_ of ch6) {
+                    if (ch13_ % ch6_ === 20) {
+                        ok = true;
+                        break;
+                    }
+                }
+                if (!ok) {
+                    ch13.splice(i, 1);
+                    didChange = true;
+                }
+            }
+
+            for (let i = (ch6.length - 1); i >= 0; i--) {
+                let ch6_ = ch6[i];
+                let ok = false;
+                for (let ch13_ of ch13) {
+                    if (ch13_ % ch6_ === 20) {
+                        ok = true;
+                        break;
+                    }
+                }
+                if (!ok) {
+                    ch6.splice(i, 1);
+                    didChange = true;
+                }
+            }
+
+        } while (didChange);
+
+        // $var11 % $var13 == $var21 - 46
+        //   => ($var11 % $var13) + 46 == $var21
+        didChange = false;
+        do {
+            didChange = false;
+
+            // Test that for each entry "ch11_" in ch11 there are entries "ch13_"
+            // in ch13 and "ch21_" in ch21 such that: (ch11_ % ch13_) + 46 == ch21_
+            for (let i = (ch11.length - 1); i >= 0; i--) {
+                let ch11_ = ch11[i];
+                let ok = false;
+                loopInner:
+                for (let ch13_ of ch13) {
+                    for (let ch21_ of ch21) {
+                        if ((ch11_ % ch13_) + 46 == ch21_) {
+                            ok = true;
+                            break loopInner;
+                        }
+                    }
+                }
+                if (!ok) {
+                    ch11.splice(i, 1);
+                    didChange = true;
+                }
+            }
+
+            // Test that for each entry "ch13_" in ch13 there are entries "ch11_"
+            // in ch11 and "ch21_" in ch21 such that: (ch11_ % ch13_) + 46 == ch21_
+            for (let i = (ch13.length - 1); i >= 0; i--) {
+                let ch13_ = ch13[i];
+                let ok = false;
+                loopInner:
+                for (let ch11_ of ch11) {
+                    for (let ch21_ of ch21) {
+                        if ((ch11_ % ch13_) + 46 === ch21_) {
+                            ok = true;
+                            break loopInner;
+                        }
+                    }
+                }
+                if (!ok) {
+                    ch13.splice(i, 1);
+                    didChange = true;
+                }
+            }
+
+            // Test that for each entry "ch21_" in ch21 there are entries "ch11_"
+            // in ch11 and "ch13_" in ch13 such that: (ch11_ % ch13_) + 46 == ch21_
+            let rhs = new Set();
+            for (let ch11_ of ch11) {
+                for (let ch13_ of ch13) {
+                    rhs.add((ch11_ % ch13_) + 46);
+                }
+            }
+            for (let i = (ch21.length - 1); i >= 0; i--) {
+                let ch21_ = ch21[i];
+                if (!rhs.has(ch21_)) {
+                    ch21.splice(i, 1);
+                    didChange = true;
+                }
+            }
+        } while (didChange)
+
+        // ($var7 % $var6) == $var10
+        didChange = false;
+        do {
+            didChange = false;
+
+            // Test that for each entry "ch6_" in ch6 there are entries "ch7_"
+            // in ch7 and "ch10_" in ch10 such that: (ch7_ % ch6_) == ch10_
+            for (let i = (ch6.length - 1); i >= 0; i--) {
+                let ch6_ = ch6[i];
+                let ok = false;
+                loopInner:
+                for (let ch7_ of ch7) {
+                    for (let ch10_ of ch10) {
+                        if ((ch7_ % ch6_) === ch10_) {
+                            ok = true;
+                            break loopInner;
+                        }
+                    }
+                }
+                if (!ok) {
+                    ch6.splice(i, 1);
+                    didChange = true;
+                }
+            }
+
+            // Test that for each entry "ch7_" in ch7 there are entries "ch6_"
+            // in ch6 and "ch10_" in ch10 such that: (ch7_ % ch6_) == ch10_
+            for (let i = (ch7.length - 1); i >= 0; i--) {
+                let ch7_ = ch7[i];
+                let ok = false;
+                loopInner:
+                for (let ch6_ of ch6) {
+                    for (let ch10_ of ch10) {
+                        if ((ch7_ % ch6_) === ch10_) {
+                            ok = true;
+                            break loopInner;
+                        }
+                    }
+                }
+                if (!ok) {
+                    ch7.splice(i, 1);
+                    didChange = true;
+                }
+            }
+
+            // Test that for each entry "ch10_" in ch10 there are entries "ch6_"
+            // in ch6 and "ch7_" in ch7 such that: (ch7_ % ch6_) == ch10_
+            let rhs = new Set();
+            for (let ch6_ of ch6) {
+                for (let ch7_ of ch7) {
+                    rhs.add(ch7_ % ch6_);
+                }
+            }
+            for (let i = (ch10.length - 1); i >= 0; i--) {
+                let ch10_ = ch10[i];
+                if (!rhs.has(ch10_)) {
+                    ch10.splice(i, 1);
+                    didChange = true;
+                }
+            }
+
+        } while (didChange)
+
+        // ($var23 % $var22) == 2
+        didChange = false;
+        do {
+            didChange = false;
+
+            for (let i = (ch23.length - 1); i >= 0; i--) {
+                let ch23_ = ch23[i];
+                let ok = false;
+                for (let ch22_ of ch22) {
+                    if (ch23_ % ch22_ === 2) {
+                        ok = true;
+                        break;
+                    }
+                }
+                if (!ok) {
+                    ch23.splice(i, 1);
+                    didChange = true;
+                }
+            }
+
+            for (let i = (ch22.length - 1); i >= 0; i--) {
+                let ch22_ = ch22[i];
+                let ok = false;
+                for (let ch23_ of ch23) {
+                    if (ch23_ % ch22_ === 2) {
+                        ok = true;
+                        break;
+                    }
+                }
+                if (!ok) {
+                    ch22.splice(i, 1);
+                    didChange = true;
+                }
+            }
+
+        } while (didChange);
 
         console.timeEnd("Outer Loop");
         console.groupEnd();
     } while (totalLenght() < prevTotalLength)
 
-    let chs = [ch0,ch1,ch2,ch3,ch4,ch5,ch6,ch7,ch8,ch9,ch10,ch11,ch12,ch13,ch14,ch15,ch16,ch17,ch18,ch19,ch20,ch21,ch22,ch23,];
+    let chs = [ch0, ch1, ch2, ch3, ch4, ch5, ch6, ch7, ch8, ch9, ch10, ch11, ch12, ch13, ch14, ch15, ch16, ch17, ch18, ch19, ch20, ch21, ch22, ch23,];
     let out = chs.map(ch => ch.map(ch_ => String.fromCharCode(ch_)));
     console.log(out);
     console.log(out.reduce((acc, ch) => acc * ch.length, 1));
