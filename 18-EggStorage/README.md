@@ -573,62 +573,14 @@ those. Surely that's an easy task... :see_no_evil:
 
 ## Solving Relations
 
-Replace equallity (e.g. `$var23 == $var17`). Note `x ^ x == 0`, so can
-remove from last xor equation.
+TODO:
+* describe solve.js
+* guess flag charset is hex
+* manually "lock" chars
+  1. ch11 = "f"
+  2. ch12 = "c"
+  3. ch16 = "c"
 
-```
-$var4  in ["0", "1", "3", "4", "5", "H", "L", "X", "c", "d", "f", "r"]
-$var5  == 14 + $var7 == 79 - $var19 + $var9
-$var6  == ?
-$var7  == $var5 - 14 == $var20 + $var14
-$var9  == $var5 + $var19 - 79
-$var11 == ?
-$var10 == ?
-$var12 == ?
-$var13 == ($var9 % $var4) * 2
-$var14 == $var15 - 1 == $var7 - $var20
-$var15 == $var14 + 1
-$var17 == ?
-$var18 == ?
-$var19 == 79 - $var5 + $var9
-$var20 == $var7 - $var14
-$var21 == ?
+ => `Th3P4r4d0X0fcH01c3154L13` (the paradox of choice is a lie)
 
-$var9 % $var8 == 40
-$var13 % $var6 == 20
-$var11 % $var13 == $var21 - 46
-$var7 % $var6 == $var10
-$var17 % $var15 == 2
-
-$var4 + $var5 + $var6 + $var7 + $var8 + $var9 + $var10 + $var11 + 2*$var12 + $var13 + $var14 + 2*$var15 + 2*$var17 + $var18 + $var19 + $var20 + $var21 == 1352
-
-$var4 ^ $var5 ^ $var6 ^ $var7 ^ $var8 ^ $var9 ^ $var10 ^ $var11 ^ $var13 ^ $var14 ^ $var18 ^ $var19 ^ $var20 ^ $var21 == 44
-```
-
-
-```
-$var4  in ["0", "1", "3", "4", "5", "H", "L", "X", "c", "d", "f", "r"]
-$var5  == 79 - $var19 + $var9
-$var6  == ?
-$var9  == $var5 + $var19 - 79
-$var11 == ?
-$var10 == ?
-$var12 == ?
-$var13 == ($var9 % $var4) * 2
-$var14 == $var15 - 1
-$var15 == $var14 + 1
-$var17 == ?
-$var18 == ?
-$var19 == 79 - $var5 + $var9
-$var21 == ?
-
-$var9 % $var8 == 40
-$var13 % $var6 == 20
-$var11 % $var13 == $var21 - 46
-($var5 - 14) % $var6 == $var10
-$var17 % $var15 == 2
-
-$var4 + 2*$var5 + $var6 + $var8 + 2*$var9 + $var10 + $var11 + 2*$var12 + $var13 + 2*$var15 + 2*$var17 + $var18 + $var21 == 1352 + 2*14 - 79
-
-$var4 ^ $var5 ^ $var6 ^ ($var5 - 14) ^ $var8 ^ $var9 ^ $var10 ^ $var11 ^ $var13 ^ $var14 ^ $var18 ^ $var19 ^ (($var5 - 14) - $var14) ^ $var21 == 44
-```
+ ![2929dac4326ad3553872c6a7.png](2929dac4326ad3553872c6a7.png)

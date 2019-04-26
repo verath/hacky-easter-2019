@@ -2,13 +2,14 @@
     'use strict';
 
     // Chars that the input may contain
-    const INPUT_CHARSET = [];
+    /*const INPUT_CHARSET = [];
     for (let i = 32; i <= 126; i++) {
         INPUT_CHARSET.push(i);
-    }
+    }*/
+    const INPUT_CHARSET = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map(c => c.charCodeAt(0))
     // Chars that the final "flag" may contain
-    //const FLAG_CHARSET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890.-_".split("").map(c => c.charCodeAt(0));
-    const FLAG_CHARSET = INPUT_CHARSET.slice();
+    const FLAG_CHARSET = "abcdef0123456789".split("").map(c => c.charCodeAt(0));
+    //const FLAG_CHARSET = INPUT_CHARSET.slice();
     // Known cipher (predefined in memory)
     // "fQ\01iP\13WP\03j\06\07\07{\05\04P\0b\06\07WzP\04"
     const CIPHER = [102, 81, 1, 105, 80, 19, 87, 80, 3, 106, 6, 7, 7, 123, 5, 4, 80, 11, 6, 7, 87, 122, 80, 4];
@@ -46,6 +47,10 @@
     let ch21 = fullRange(CIPHER[21]);
     let ch22 = fullRange(CIPHER[22]);
     let ch23 = fullRange(CIPHER[23]);
+
+    ch11 = ["f".charCodeAt(0)];
+    ch12 = ["c".charCodeAt(0)];
+    ch16 = ["c".charCodeAt(0)];
 
     // totalLenght returns the total length of all the ch ranges. This
     // is used to determine if any change was made.
