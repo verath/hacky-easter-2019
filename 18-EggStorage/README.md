@@ -421,7 +421,7 @@ Followed by even more complicated relations:
 ```
 
 Finally there is a large loop that accumulates both the sum
-and the xor of memory between index 24+4 and 24+23 inclusive.
+and the XOR of memory between index 24+4 and 24+23 inclusive.
 (Remember that we know since earlier that these memory
 locations has the same value as the vars $var4 through $var23):
 
@@ -458,7 +458,7 @@ locations has the same value as the vars $var4 through $var23):
     end $label1
 ```
 
-The accumlated sum and xor is then checked against two know constants:
+The accumlated sum and XOR is then checked against two know constants:
 
 ```wast
     get_local $var25      ;;
@@ -479,7 +479,7 @@ The accumlated sum and xor is then checked against two know constants:
 
 If we manage to get past all that, the final instructions calls $func3
 ("decrypt") and returns 1, signaling to the caller that the input was
-correct. The decrypt function performs a per character xor between
+correct. The decrypt function performs a per character XOR between
 the predefined data and the input data, then storing it back to memory:
 
 ```wast
@@ -515,7 +515,7 @@ the predefined data and the input data, then storing it back to memory:
   )
 ```
 
-The xored memory is then read and used on the javascript side in
+The XORed memory is then read and used on the javascript side in
 `getEgg` to return the flag for the level:
 
 ```js
@@ -573,8 +573,122 @@ those. Surely that's an easy task... :see_no_evil:
 
 ## Solving Relations
 
+After spending some time trying to solve the relations by hand
+it was pretty obvious that there were no easy solution that
+could be found manually. Instead I wrote a script ([solve.js](solve.js))
+for trying to programatically solve the problem.
+
+The basic idea for the solve.js script was to produce a range of
+possible input characters for each character position. The range
+for each position would start of "unlimited" and then, due to the
+relations with other character positions, it would shrink. In
+practice though, we can be almost certain that each character is
+within the range of printable ASCII characters. Otherwise it would
+be dificult to enter in the HTML input field. (Also it would make
+this already pretty hard level close to impossible).
+
+One detail I didn't really consider much previously but turned out
+to be essential for solving the level was the per character XOR
+performed in the `decrypt` function. This implicitly limits the
+range of possible input characters for a given position to only
+those that when XORed with the *known* cipher character produces a
+valid character.
+
+Keeping the above in mind we can define the initial ranges for all
+the 24 input positions (`ch0` through `ch23` in the script). For
+the first 4 we already know their exact value so we use that. `ch4`
+is known to be a smaller subset of input characters. All other
+positions are given a `fullRange`, which means that they are "any
+printable ascii character such that when XORed with the cipher
+produces a printable ascii character":
+
+```js
+// Chars that the input may contain (=any printable ASCII characters)
+const INPUT_CHARSET = [];
+for (let i = 32; i <= 126; i++) {
+    INPUT_CHARSET.push(i);
+}
+// Chars that the final "flag" may contain
+const FLAG_CHARSET = INPUT_CHARSET.slice();
+// Known cipher (predefined in memory)
+const CIPHER = [102, 81, 1, 105, 80, 19, 87, 80, 3, 106, 6, 7, 7, 123, 5, 4, 80, 11, 6, 7, 87, 122, 80, 4];
+
+function fullRange(c) {
+    return INPUT_CHARSET.filter(ch => FLAG_CHARSET.indexOf(ch ^ c) > -1);
+}
+
+// Initial ranges for character positions 0..23
+let ch0 = ["T".charCodeAt(0)];
+let ch1 = ["h".charCodeAt(0)];
+let ch2 = ["3".charCodeAt(0)];
+let ch3 = ["P".charCodeAt(0)];
+let ch4 = (function () {
+    const c = CIPHER[4];
+    return ["0", "1", "3", "4", "5", "H", "L", "X", "c", "d", "f", "r"]
+        .map(ch => ch.charCodeAt(0))
+        .filter(ch => FLAG_CHARSET.indexOf(ch ^ c) > -1);
+})();
+let ch5 = fullRange(CIPHER[5]);
+// ...
+let ch23 = fullRange(CIPHER[23]);
+```
+
+Following the initial ranges we enter a loop that repeats until no changes
+were made to any of the ranges (the `ch` variables). The loop is there so
+that we can evaluate each relation separately, without having to consider
+how other relations are affected if a range is restricted by the current
+relation. For example, if evaluating the last relation changes `ch8` so that
+it is limited to `"3"` or `"5"` then each previous relation that referenced
+`ch8` has to be re-evaluated. The loop does this for us, but at a slight cost
+of evaluating all relations again, instead of only those that *had* to be
+re-evaluated:
+
+```js
+// totalLenght returns the total length of all the ch ranges. This
+// is used to determine if any change was made.
+function totalLenght() {
+    let chs = [ch0, ch1, ch2, ch3, ch4, ch5, ch6, ch7, ch8, ch9, ch10, ch11, ch12, ch13, ch14, ch15, ch16, ch17, ch18, ch19, ch20, ch21, ch22, ch23,];
+    return chs.reduce((acc, ch) => acc + ch.length, 0);
+}
+
+let prevTotalLength = 0;
+do {
+    prevTotalLength = totalLenght();
+    // Evaluate relations
+    // ...
+} while (totalLenght() < prevTotalLength)
+```
+
+Within the loop are all the relations that we found by reversing the
+WebAssembly. Each relation is implemented by removing any entry from
+the range of possible values for the input position that the relation
+cannot be true for. For example, the equality relation between `ch17`
+and `ch23` is implemented by removing any entry in `ch17` that is not
+in `ch23` (and the other way around), since if some character is not
+in both `ch17` and `ch23` then the relation cannot be true for that 
+character.
+
+```js
+// $var23 == $var17
+ch17 = ch17.filter(ch17_ => ch23.indexOf(ch17_) > -1);
+ch23 = ch23.filter(ch23_ => ch17.indexOf(ch23_) > -1);
+```
+
+Although the code is significantly simpler for the equality relation
+than the other relations, the same principle still applies for the remaining
+relations as well.
+
+After implementing all the relations (except the "total sum" and "total XOR")
+we still end up with a fairly large number of possible characters.
+Actually that is a bit of an understatement... At this point we have only
+managed to reduce the number of possible combinations to approximately
+`1.5e+23`. That number is on about the same order of magnitude as there are
+grains of sand on the earth according to Wolfram Alpha (AKA probably not
+something we can brute-force). This is also why we cannot implement the
+"total sum" and "total XOR", as they would also require enumerating all
+(or almost all) possible combinations.
+
 TODO:
-* describe solve.js
 * guess flag charset is hex
 * manually "lock" chars
   1. ch11 = "f"
