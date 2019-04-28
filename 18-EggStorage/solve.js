@@ -2,11 +2,11 @@
     'use strict';
 
     // Chars that the input may contain
-    /*const INPUT_CHARSET = [];
+    const INPUT_CHARSET = [];
     for (let i = 32; i <= 126; i++) {
         INPUT_CHARSET.push(i);
-    }*/
-    const INPUT_CHARSET = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map(c => c.charCodeAt(0))
+    }
+    //const INPUT_CHARSET = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map(c => c.charCodeAt(0))
     // Chars that the final "flag" may contain
     const FLAG_CHARSET = "abcdef0123456789".split("").map(c => c.charCodeAt(0));
     //const FLAG_CHARSET = INPUT_CHARSET.slice();
@@ -514,7 +514,9 @@
 
     let chs = [ch0, ch1, ch2, ch3, ch4, ch5, ch6, ch7, ch8, ch9, ch10, ch11, ch12, ch13, ch14, ch15, ch16, ch17, ch18, ch19, ch20, ch21, ch22, ch23,];
     let out = chs.map(ch => ch.map(ch_ => String.fromCharCode(ch_)));
-    console.log(out);
+    for (let i = 0 ; i < out.length; i++) {
+        console.log(`ch${i}:`, out[i].map(ch => `"${ch}"`).join(", "))
+    }
     console.log(out.reduce((acc, ch) => acc * ch.length, 1));
     console.log(totalLenght());
 })();
