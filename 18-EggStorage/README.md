@@ -63,7 +63,7 @@ human readable representation of the WebAssembly binary content. Some googling
 seems to suggest that browsers can do this for us, and indeed after a quick
 test that is the case. 
 
-The perhaps easiest way to retreive the textual representation created
+The perhaps easiest way to retrieve the textual representation created
 by the browser is by using the call stack in the Firefox developer tools.
 By supplying some valid (24 characters) input and clicking Validate we 
 hit the `debugger` breakpoint in the `nope` function. Here we can see
@@ -459,7 +459,7 @@ that these memory locations has the same value as the vars `$var4` through
     end $label1
 ```
 
-The accumlated sum and XOR is then checked against two constants:
+The accumulated sum and XOR is then checked against two constants:
 
 ```wast
     get_local $var25      ;;
@@ -589,7 +589,7 @@ those. Surely that's an easy task... :see_no_evil:
 After spending some time trying to solve the relations by hand
 it was pretty obvious that there were no easy solution that
 could be found manually. Instead I wrote a script ([solve.js](solve.js))
-for trying to programatically solve the problem. This section
+for trying to programmatically solve the problem. This section
 explains the underlying ideas of the solve.js script and how it,
 together with some guessing, finally resulted in finding the
 correct input to unlock the egg.
@@ -604,7 +604,7 @@ In practice, we can be almost certain that each character is within the range
 of printable ASCII characters, since otherwise it would be hard to enter them
 in an HTML input field (also it would make this already pretty hard level
 close to impossible). So the initial range most probably isn't actually
-"unlimited", but rather limited to some 100 printiable ASCII characters. With
+"unlimited", but rather limited to some 100 printable ASCII characters. With
 that assumption we have already reduced the number of combinations from 
 "unlimited" to approximately `100^19` (=`1 × 10^38`). Nice! And we haven't
 even started coding yet :).
@@ -729,7 +729,7 @@ take any of the following values:
 ["$", "%", "&", "'", "(", ")", "*", "+", ",", "-", ".", "/", "0", "2", "3", "4", "5", "6", "7", "8", "9", ":", ";", "<", "=", ">", "?", "@", "A", "F", "H", "J", "L", "N", "P", "R", "T", "V", "X", "Z", "\\", "^", "b", "d", "f", "h", "j", "k", "l", "n", "p", "q", "r", "v", "w", "x", "z", "|", "}", "~"]
 ```
 
-The reason for there being so many posibilities is mostly due to the "charsets"
+The reason for there being so many possibilities is mostly due to the "charsets"
 we are allowing for both the input and the flag (see `INPUT_CHARSET` and
 `FLAG_CHARSET`). Right now they are both set to the full range of printable
 ASCII characters, which is probably a bit too permissive. Importantly, any

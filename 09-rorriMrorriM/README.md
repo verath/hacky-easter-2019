@@ -19,9 +19,9 @@ Reversing the file produces a proper "archive.zip" that we can extract. Within i
 we find another file "90gge.gnp", which we rename to "egg09.png". Again this file
 doesn't open correctly. However, this time the file is not reversed. Opening it in
 a hex editor it actually looks mostly ok. In particular we see an `IHDR` sequence
-towards the begining of the file and an `IEND` at the end. These sequences are both
-part of the png format, so seeing them intact indicates that the entire file is not
-modified the same way as the .zip file was.
+towards the beginning of the file and an `IEND` at the end. These sequences are
+both part of the png format, so seeing them intact indicates that the entire file is
+not modified the same way as the .zip file was.
 
 Referring to the file signature list we notice that the very first bytes of the file
 has been changed from the expected `89 50 4E 47 0D 0A 1A 0A` to instead be
@@ -41,8 +41,8 @@ seemingly reversed compared to what a normal QR code looks like:
 
 ![qr_code_comp.png](qr_code_comp.png)
 
-Inversing the colors in the qr code part of the egg09_flipped.png (which
-suprisingly enough can also be done in ms paint) we finally get the working QR
+Inverting the colors in the qr code part of the egg09_flipped.png (which
+surprisingly enough can also be done in ms paint) we finally get the working QR
 code for the level:
 
 ![egg09_flipped_inversed_qr.png](egg09_flipped_inversed_qr.png)

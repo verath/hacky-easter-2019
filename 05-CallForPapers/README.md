@@ -1,3 +1,4 @@
+
 # 05 - Call for Papers [easy]
 
 > Please read and review my CFP document, for the upcoming IAPLI Symposium.
@@ -10,7 +11,7 @@
 
 Opening the .docx document in WordPad (I apparently did not have Word
 installed) shows us a text that looks like random spam for a conference.
-There apperas to be no images, at least not that WordPad can render.
+There appears to be no images, at least not that WordPad can render.
 
 Since .docx is actually just a .zip in disguise we can unzip the file to
 have a closer look at its contents. See [./IAPLI_Conference](./IAPLI_Conference).
@@ -45,7 +46,7 @@ Namely that the The `dc:creator` property is `"SCIpher"`:
 </cp:coreProperties>
 ```
 
-This could of course be nothing more than a considence, but given that we are
+This could of course be nothing more than a coincidence, but given that we are
 looking for something that is probably a Cipher, SCIpher is perhaps more than
 just slightly odd. Turning to Google we find exactly what we were hoping for:
 

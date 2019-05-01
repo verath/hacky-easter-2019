@@ -1,3 +1,4 @@
+
 # WIP: 24 - CAPTEG [hard]
 > CAPTEG - Completely Automated Turing test to know how many Eggs are in the Grid
 > 
@@ -22,12 +23,12 @@ As the task description already states, the challenge itself is fairly
 simple. You are shown an image containing (among other things) some
 number of eggs (of varying colors) and your task is to answer how many
 eggs are in the image. The hard part is that you only have a very short
-time (aprox. 7 seconds) to provide an answer, and that you must answer
+time (approx. 7 seconds) to provide an answer, and that you must answer
 correctly 42 times in a row:
 
 ![capteg_index.png](capteg_index.png)
 
-The remainder of this writeup will be structured around the
+The remainder of this write up will be structured around the
 following steps, which were taken in order to solve the level:
 
 1. Downloading training data
@@ -40,11 +41,11 @@ in his guide called "[How to train your own Object Detector with TensorFlow’s 
 
 The python scripts used for this challenge uses a couple of external 
 dependencies. The dependencies are mostly managed by 
-[pipenv](https://pipenv.readthedocs.io/en/latest/), which is bascially
+[pipenv](https://pipenv.readthedocs.io/en/latest/), which is basically
 a combination of pip and virtualenv. To setup the appropriate environment
 run `pipenv install`. Each script must also be run within the virtual
 environment. This is done either by activating the environment once via
-`pip shell`, or explictly running each script in the environment by
+`pip shell`, or explicitly running each script in the environment by
 using `pipenv run`.
 
 In addition to pipenv, some dependencies were not available on pip, so they were
@@ -66,7 +67,7 @@ train/test/validate against. So let's gather that first. In this level
 data is of course variants of "CAPTEG" image.
 
 Poking around at the site we notice that visiting the index page gives us 
-a `sessionId` cookie, and that this cookie is requried for the 
+a `sessionId` cookie, and that this cookie is required for the
 [`/picture`](http://whale.hacking-lab.com:3555/picture) endpoint to give us
 an image. The `/picture` endpoint also stopps serving the image when the time
 runs out, instead just giving us a message saying "timeout, go to index page 
@@ -115,7 +116,7 @@ Now that we have a lot of images we need to annotate them so that the model can
 learn what is actually in the image. Since we only care about finding eggs, we
 will only be using a single class(label?), "egg". However, before we get started
 with annotating we now have to actually decide on the framework to use so that
-we can produce labels that are approriate for the framework.
+we can produce labels that are appropriate for the framework.
 
 After extensive research (read 20 minutes of googling) I decided to use 
 [TensorFlow's ObjectDetection API](https://github.com/tensorflow/models/tree/master/research/object_detection) primarily because documentation looked good. 

@@ -2,7 +2,7 @@
 
 > This year, we dance outside, yeaahh! [See here.](disco2.html)
 
-This challenge seems to be completely client side, so lets download
+This challenge seems to be completely client side, so let's download
 the disco2.html file so we can more easily edit it. A simple `<base>`
 element makes all the relative links work. Oh, and disable the sound
 too.
@@ -56,7 +56,7 @@ It's just a bit reflective. And rotated.
 
 Let's tackle the rotation first. Maybe we can just alter some values of the
 mirror pieces to set their rotations to 0? After some quick searching we find
-the definitions for the mirror segements in the [js/mirrors.js](https://hackyeaster.hacking-lab.com/hackyeaster/challenges/disco2/js/mirrors.js)
+the definitions for the mirror segments in the [js/mirrors.js](https://hackyeaster.hacking-lab.com/hackyeaster/challenges/disco2/js/mirrors.js)
 file. However, since each entry consists of only three values it seems likely
 that the definitions in the mirrors.js file is only for the (x, y, z)
 locations. The rotation must be set somewhere else...
@@ -113,7 +113,7 @@ harder to read:
 
 Ok... So what if we remove everything else from the scene? Note that
 we also set the screen background to white, as otherwise we would have
-ended up with a completely black sceene with a completely black disco
+ended up with a completely black scene  with a completely black disco
 ball in the middle.
 
 ```diff
@@ -152,7 +152,7 @@ ball in the middle.
              // my things
 ```
 
-With those changes we end up with what looks like something stright out of the game
+With those changes we end up with what looks like something straight out of the game
 [Antichamber](http://www.antichamber-game.com/):
 
 ![only_disco_ball.png](only_disco_ball.png)
