@@ -1,4 +1,4 @@
-# 04 - Disco 2
+# 04 - Disco 2 [easy]
 
 > This year, we dance outside, yeaahh! [See here.](disco2.html)
 

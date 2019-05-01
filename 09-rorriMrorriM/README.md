@@ -1,4 +1,4 @@
-# 09 - rorriM rorriM
+# 09 - rorriM rorriM [easy]
 
 > Mirror, mirror, on the wall, who's the fairest of them all?
 >

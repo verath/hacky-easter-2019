@@ -1,4 +1,4 @@
-# WIP: 24 - CAPTEG
+# WIP: 24 - CAPTEG [hard]
 > CAPTEG - Completely Automated Turing test to know how many Eggs are in the Grid
 > 
 > CAPTEG is almost like a CAPTCHA. But here, you have to proof you are a bot that can
